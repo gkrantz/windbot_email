@@ -8,7 +8,7 @@ Sends emails when Windbot takes a screenshot. For example when you get attacked 
 [Latest release](https://github.com/Dolmero/windbot_email/releases)  
 *This not officially endorsed by WindBot*
 * Download the file **windbotemail.jar** from above.
-* Put **windbotemail.jar** inside your windbot screenshot folder for me it is **_G:\WindBot\screenshots_**
+* Put **windbotemail.jar** inside your windbot screenshot folder, for me it is **_G:\WindBot\screenshots_**
 * Start it and enter an email and a password for a Gmail. You can have the same sender and receiver.
 * Press Send!
 
@@ -19,5 +19,5 @@ If you want to test if it sends anything, you can:
 * Rename an already existing screenshot in the folder.
 
 #Notes
-* This program will attempt send anything new that enters the folder of the .jar file.
+* This program will attempt to send anything new that enters the folder of the .jar file.
 * When a program like this asks for your gmail acc/pass then you probably want to make a new Gmail instead of using your main one. Making a new one will work fine.
