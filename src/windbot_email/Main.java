@@ -12,6 +12,7 @@ public class Main {
 	static String filepath;
 	private static void window(){
 		JFrame frame = new JFrame("Windbot Emailer");
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("windbot_email/Dolmero.png")));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel clientInfo = new JPanel(new GridBagLayout());
@@ -23,7 +24,7 @@ public class Main {
         constraints.gridy = 0;
 		JLabel sendtoText = new JLabel("Email to");
 	    JTextField sendto = new JTextField(24);
-	    sendto.setText("windbotman@gmail.com");
+	    sendto.setText("");
 	    clientInfo.add(sendtoText, constraints);
 	    constraints.gridx = 1;
 	    clientInfo.add(sendto, constraints);
@@ -33,7 +34,7 @@ public class Main {
         JLabel sendfromText = new JLabel("Email from");
         JLabel sendfromGmail = new JLabel("@gmail.com");
 	    JTextField sendfrom = new JTextField(17);
-	    sendfrom.setText("windbotman");
+	    sendfrom.setText("");
 	    clientInfo.add(sendfromText, constraints);
 	    constraints.gridx = 1;
 	    clientInfo.add(sendfrom, constraints);
@@ -45,7 +46,6 @@ public class Main {
         constraints.gridy = 2;
         JLabel passwordText = new JLabel("Password");
 	    JPasswordField password = new JPasswordField(24);
-	    sendto.setText("");
 	    clientInfo.add(passwordText, constraints);
 	    constraints.gridx = 1;
 	    clientInfo.add(password, constraints);
