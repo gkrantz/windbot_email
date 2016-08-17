@@ -49,96 +49,96 @@ public class ListenThread extends Thread
 		try {
 			try(WatchService service = fs.newWatchService()){
 				listenpath.register(service, ENTRY_CREATE, ENTRY_MODIFY, ENTRY_DELETE); 
-	         // Start the infinite polling loop
-	            WatchKey key = null;
-	            while (true) {
-	                key = service.take();
+				// Start the infinite polling loop
+				WatchKey key = null;
+				while (true) {
+					key = service.take();
 
-	                // Dequeueing events
-	                Kind<?> kind = null;
-	                for (WatchEvent<?> watchEvent : key.pollEvents()) {
-	                    // Get the type of the event
-	                    kind = watchEvent.kind();
-	                    if (OVERFLOW == kind) {
-	                        continue; // loop
-	                    } else if (ENTRY_CREATE == kind) {
-	                    	Main.updateProgress(1);
-	                        // A new Path was created
-	                        Path newPath = ((WatchEvent<Path>) watchEvent)
-	                                .context();
-	                        // Output
-	                        System.out.println("New path created: " + newPath);
-	                        
-	                        Properties props = System.getProperties();
-	                        props.put("mail.smtp.starttls.enable", true);
-	                        props.put("mail.smtp.host", "smtp.gmail.com");
-	                        props.put("mail.smtp.user", senderEmail);
-	                        props.put("mail.smtp.password", senderPassword);
-	                        props.put("mail.smtp.port", "587");
-	                        props.put("mail.smtp.auth", true);
+					// Dequeueing events
+					Kind<?> kind = null;
+					for (WatchEvent<?> watchEvent : key.pollEvents()) {
+						// Get the type of the event
+						kind = watchEvent.kind();
+						if (OVERFLOW == kind) {
+							continue; // loop
+						} else if (ENTRY_CREATE == kind) {
+							Main.updateProgress(1);
+							// A new Path was created
+							Path newPath = ((WatchEvent<Path>) watchEvent)
+									.context();
+							// Output
+							System.out.println("New path created: " + newPath);
 
-
-
-	                        Session session = Session.getInstance(props,null);
-	                        MimeMessage message = new MimeMessage(session);
-
-	                        System.out.println("Port: "+session.getProperty("mail.smtp.port"));
-
-	                        try {
-	                            InternetAddress from = new InternetAddress(senderEmail);
-	                            message.setSubject("Windbot alert");
-	                            message.setFrom(from);
-	                            message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
-
-	                            Multipart multipart = new MimeMultipart("alternative");
-
-	                            BodyPart messageBodyPart = new MimeBodyPart();
-	                            messageBodyPart.setText("Sent by Dolmero.");
-
-	                            multipart.addBodyPart(messageBodyPart);
+							Properties props = System.getProperties();
+							props.put("mail.smtp.starttls.enable", true);
+							props.put("mail.smtp.host", "smtp.gmail.com");
+							props.put("mail.smtp.user", senderEmail);
+							props.put("mail.smtp.password", senderPassword);
+							props.put("mail.smtp.port", "587");
+							props.put("mail.smtp.auth", true);
 
 
-	                            messageBodyPart = new MimeBodyPart();
 
-	                           	String filename = listenpath + "\\" + newPath;
-	                           	System.out.println("2: " + filename);
-	                            DataSource source = new FileDataSource(filename);
-	                            messageBodyPart.setDataHandler(new DataHandler(source));
-	                            messageBodyPart.setFileName(filename);
-	                            multipart.addBodyPart(messageBodyPart);
+							Session session = Session.getInstance(props,null);
+							MimeMessage message = new MimeMessage(session);
 
-	                            message.setContent(multipart);
-	                            Main.updateProgress(2);
-	                            // Send message
-	                            Transport transport = session.getTransport("smtp");
-	                            transport.connect("smtp.gmail.com", senderEmail, senderPassword);
-	                            System.out.println("Transport: "+transport.toString());
-	                            transport.sendMessage(message, message.getAllRecipients());
-	                        } catch (AddressException e3) {
-	                            e3.printStackTrace();
-	                        } catch (MessagingException e2) {
-	                            e2.printStackTrace();
-	                        }
-	                        
-	                    } else if (ENTRY_MODIFY == kind) {
-	                        // modified
-	                        Path newPath = ((WatchEvent<Path>) watchEvent)
-	                                .context();
-	                        // Output
-	                        System.out.println("New path modified: " + newPath);
-	                        Main.updateProgress(3);
-	                    }
-	                }
+							System.out.println("Port: "+session.getProperty("mail.smtp.port"));
 
-	                if (!key.reset()) {
-	                    break; // loop
-	                }
-	            }
+							try {
+								InternetAddress from = new InternetAddress(senderEmail);
+								message.setSubject("Windbot alert");
+								message.setFrom(from);
+								message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
 
-	        }  catch (InterruptedException ie) {
-	            ie.printStackTrace();
-	        }
-			
+								Multipart multipart = new MimeMultipart("alternative");
+
+								BodyPart messageBodyPart = new MimeBodyPart();
+								messageBodyPart.setText("Sent by Dolmero.");
+
+								multipart.addBodyPart(messageBodyPart);
+
+
+								messageBodyPart = new MimeBodyPart();
+
+								String filename = listenpath + "\\" + newPath;
+								System.out.println("2: " + filename);
+								DataSource source = new FileDataSource(filename);
+								messageBodyPart.setDataHandler(new DataHandler(source));
+								messageBodyPart.setFileName(filename);
+								multipart.addBodyPart(messageBodyPart);
+
+								message.setContent(multipart);
+								Main.updateProgress(2);
+								// Send message
+								Transport transport = session.getTransport("smtp");
+								transport.connect("smtp.gmail.com", senderEmail, senderPassword);
+								System.out.println("Transport: "+transport.toString());
+								transport.sendMessage(message, message.getAllRecipients());
+							} catch (AddressException e3) {
+								e3.printStackTrace();
+							} catch (MessagingException e2) {
+								e2.printStackTrace();
+							}
+
+						} else if (ENTRY_MODIFY == kind) {
+							// modified
+							Path newPath = ((WatchEvent<Path>) watchEvent)
+									.context();
+							// Output
+							System.out.println("New path modified: " + newPath);
+							Main.updateProgress(3);
+						}
+					}
+
+					if (!key.reset()) {
+						break; // loop
+					}
+				}
+
+			}  catch (InterruptedException ie) {
+				ie.printStackTrace();
+			}
+
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
