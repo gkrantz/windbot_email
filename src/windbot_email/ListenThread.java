@@ -62,6 +62,7 @@ public class ListenThread extends Thread
 	                    if (OVERFLOW == kind) {
 	                        continue; // loop
 	                    } else if (ENTRY_CREATE == kind) {
+	                    	Main.updateProgress(1);
 	                        // A new Path was created
 	                        Path newPath = ((WatchEvent<Path>) watchEvent)
 	                                .context();
@@ -107,7 +108,7 @@ public class ListenThread extends Thread
 	                            multipart.addBodyPart(messageBodyPart);
 
 	                            message.setContent(multipart);
-
+	                            Main.updateProgress(2);
 	                            // Send message
 	                            Transport transport = session.getTransport("smtp");
 	                            transport.connect("smtp.gmail.com", senderEmail, senderPassword);
@@ -125,6 +126,7 @@ public class ListenThread extends Thread
 	                                .context();
 	                        // Output
 	                        System.out.println("New path modified: " + newPath);
+	                        Main.updateProgress(3);
 	                    }
 	                }
 

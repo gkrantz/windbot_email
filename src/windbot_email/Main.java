@@ -10,6 +10,7 @@ import javax.swing.*;
 
 public class Main {
 	static String filepath;
+	static JProgressBar progress = new JProgressBar(0, 3);
 	private static void window(){
 		JFrame frame = new JFrame("Windbot Emailer");
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("windbot_email/Dolmero.png")));
@@ -49,12 +50,15 @@ public class Main {
 	    clientInfo.add(passwordText, constraints);
 	    constraints.gridx = 1;
 	    clientInfo.add(password, constraints);
-	      
+	    
+	   
+	    
 	    frame.getContentPane().add(clientInfo, BorderLayout.CENTER);
 	    JButton send = new JButton();
 	    send.setText("Send");
 	    frame.getContentPane().add(send, BorderLayout.SOUTH);
-	      
+	    
+	    
 	    send.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					send.setText("Waiting...");
@@ -68,12 +72,21 @@ public class Main {
 					path = dir.toPath();
 					ListenThread emailThread = new ListenThread(path, sendto.getText(), sendfrom.getText(), password.getPassword());
 					emailThread.start();
+					frame.getContentPane().add(progress, BorderLayout.SOUTH);
 				}
 			});
 	 
 	      //Display the window.
 	      frame.pack();
 	      frame.setVisible(true);
+	}
+	
+	public static void updateProgress(int value){
+		progress.setValue(value);
+		if(value == 3) 
+			progress.setVisible(false);
+		else
+			progress.setVisible(true);
 	}
 
 	
