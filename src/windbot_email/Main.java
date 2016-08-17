@@ -60,6 +60,8 @@ public class Main {
 					send.setText("Waiting...");
 					send.setEnabled(false);
 					sendto.setEnabled(false);
+					sendfrom.setEnabled(false);
+					password.setEnabled(false);
 					Path path;
 					File dir = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
 					filepath = dir.toString();

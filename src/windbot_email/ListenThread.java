@@ -40,7 +40,6 @@ public class ListenThread extends Thread
 		this.recipientEmail = recipientEmail;
 		this.senderEmail = senderEmail + "@gmail.com";
 		this.senderPassword = new String(senderPassword);
-		System.out.println(this.senderEmail + " and " + this.senderPassword);
 	}
 
 	@Override
