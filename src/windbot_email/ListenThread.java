@@ -78,7 +78,7 @@ public class ListenThread extends Thread
 							// Output
 							System.out.println("New path created: " + newPath);
 							if (!newPath.toString().equals(ignorepath)){
-
+								ignorepath = null;
 								Properties props = System.getProperties();
 								props.put("mail.smtp.starttls.enable", true);
 								props.put("mail.smtp.host", "smtp.gmail.com");
@@ -140,7 +140,7 @@ public class ListenThread extends Thread
 									transport.sendMessage(message, message.getAllRecipients());
 									
 									// Delete png file
-									if (ignorepath.substring(ignorepath.length()-3).equals("png")){
+									if (ignorepath != null){
 									try {
 									    	Files.delete(Paths.get(listenpath + "\\" + ignorepath));
 										} catch (NoSuchFileException x) {
